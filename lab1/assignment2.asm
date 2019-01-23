@@ -23,11 +23,10 @@ stop:	j	stop		# stop after one run
 
 hexasc:
 	andi $t0, $a0, 0xf	# Mask off all bits past 0xf, so there is some period to the input (17 becomes 2), etc
-	addi $t0, $t0, 0x30 	# Add (int)'0' so that the input matches the ascii-table for '0'
 	blt  $a0, 10, decimal	# Check if less than 10, thus still decimal
 	addi $t0, $t0, 0x27	# Add ((int)'a' - 10) so that the input matches the ascii-table for 'a' (48 + (49 - 10) = 48 + 39 = 97)
 decimal:
+	addi $t0, $t0, 0x30 	# Add (int)'0' so that the input matches the ascii-table for '0'
 	move $v0, $t0 		# Move $t0 to the return register $v0
 	jr $ra
-
 # All values between -INT_MAX and 10 will branch to the taken branch notChar

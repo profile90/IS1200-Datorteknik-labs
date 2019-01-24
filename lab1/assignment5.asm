@@ -183,3 +183,6 @@ colon: 				# is run once, when the memory-counter is 2 (xx->:<-xx)
 			# exit loop [*]
 			# add EOS, null, 0x00, nada, finito [*]
 
+# .global gives permissions for the global scope to call this function, which means that C for example can 
+# call the function directly instead of implementing it themselves. It enables one to write c + assembly essentially, where 
+# the assembly does special tasks super fast and c acts as a caller.

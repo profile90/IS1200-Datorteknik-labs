@@ -9,7 +9,26 @@
 #include <stdio.h>
 
 int is_prime(int n){
-  return 0;
+  if(n == 0 || n == 1)
+    return 0;
+  
+  if(n == 2)
+    return n;
+  
+  if(n % 2 == 0 || n % 3 == 0)
+    return 0;
+
+  int i = 5;
+  int w = 2;
+
+  while(i * i <= n) {
+    if(n % i ==  0)
+      return 0;
+
+    i += w;
+    w = 6 - w;
+  }
+  return 1;
 }
 
 int main(void){

@@ -27,16 +27,25 @@ void user_isr( void )
 /* Lab-specific initialization goes here */
 void labinit( void )
 {
+  /* LEDS START */
   volatile int* trise = (volatile int*) 0xbf886100;
   *trise &= 0xff00;
+  /* LEDS END */  
+
+  /* LEDS START */
+  TRISD &= 0xffe0; // bits 11 - 5 are set into inputs
+
 }
 
 /* This function is called repetitively from the main program */
 void labwork( void )
 {
+  /* LEDS START */
   volatile int* porte = (volatile int*) 0xbf886110;
   *porte = tickcounter;
-  
+  /* LEDS END */
+
+
   delay( 1000 );
   time2string( textstring, mytime );
   display_string( 3, textstring );
@@ -44,4 +53,29 @@ void labwork( void )
   tick( &mytime );
   tickcounter++;
   display_image(96, icon);
+
+
+  switch(getbtns()) {
+    case 0x1:
+      mytime =  ((mytime & 0xff0f) | (getsw() << 4));
+      break;
+    case 0x2:
+      mytime =  ((mytime & 0xf0ff) | (getsw() << 8));
+      break;
+    case 0x4:
+      mytime =  ((mytime & 0x0fff) | (getsw() << 12));
+      break;
+    case 0x3:
+      mytime =  ((mytime & 0xf00f) | (getsw() << 4) | (getsw() << 8));
+      break;
+    case 0x5:
+      mytime =  ((mytime & 0x0f0f) | (getsw() << 12) | (getsw() << 4));
+      break;
+    case 0x6:
+      mytime =  ((mytime & 0x00ff) | (getsw() << 12) | (getsw() << 8));
+      break;
+    case 0x7:
+      mytime =  ((mytime & 0x000f) | (getsw() << 12) | (getsw() << 8) | (getsw() << 4));
+      break;
+  }
 }

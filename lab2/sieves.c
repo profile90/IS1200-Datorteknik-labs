@@ -3,6 +3,8 @@
  By David Broman.
  Last modified: 2015-09-15
  This file is in the public domain.
+
+    Biggest number: 2 093 691 
 */
 
 
@@ -10,45 +12,47 @@
 #include <stdlib.h>
 
 #define COLUMNS 6
+int check = 0;
+
+void print_number(int p) {
+  printf("%10d ", p);      
+  check++;
+  if(check >= 6) {
+    printf("\n");
+    check = 0;
+  }
+}
+
+
+
 
 
 void print_sieves(int n){
-    printf("Running!\n  ");
-    int * arr = (int*) malloc(n * (sizeof(int)));
-    printf("Running!\n  ");
+    char arr[n];
+    printf("arr: %ul, n: %d\n", sizeof(arr), n);
     
     for(int i = 0; i < n; i++) {
         arr[i] = 1;
-        printf("%d", arr[i]);
     }
-    printf("Running!\n  ");
     
-    for(int i = 2; i * i < n; i++){
-        if(arr[i]) {
-            for(int j = i * i + 1; j < n; j = j + i) {
+    for(int i = 0; i * i <= n; i++){
+        if((i == 0) || (i == 1)){
+            arr[i] = 0;
+        }
+        else if(arr[i]) {
+            for(int j = i * i; j < n; j = j + i) {
                 arr[j] = 0;
             }
         }
     }
-    printf("Running!\n  ");
-
-    int formatting = 0;
-    
+ 
     for(int i = 0; i < n; i++) {
-        
-        if(arr[i]) {
-            printf("%10d ", i);
+        if(arr[i]) { 
+            print_number(i);
         }
-
-        formatting++;
-        if(formatting == 6) {
-            printf("\n");
-            formatting = 0;
-        }
-
     }   
-
-    free(arr);
+    printf("\n");
+    
 }
 
 

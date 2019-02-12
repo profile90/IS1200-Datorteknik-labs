@@ -24,7 +24,7 @@ main:
 	syscall
 	nop
 	# wait a little
-	li	$a0,2
+	li	$a0,1000
 	jal	delay
 	nop
 	# call tick
@@ -92,7 +92,7 @@ delay:
 	nop
  	move $s0, $0		# Create iterator
  	move $s1, $a0 		# Save ms 
-	li $t0, 2400
+	li $t0, 800
 	# this value depends on the clock frequency
 	# For the MIPS architecture, according to https://en.wikipedia.org/wiki/Cycles_per_instruction
 	# The value of a R-type and Branch instruction maps as such: (nop, add, blt) => (3 c, 3 c, 4 c)    
@@ -102,8 +102,8 @@ delay:
 while:
 	subi $s1, $s1, 1
 NOPloop:
-	nop
 	addi $s0, $s0, 1
+	nop
 	blt $s0, $t0, NOPloop
 	nop
 	bgt $s1, $0, while
@@ -111,7 +111,7 @@ NOPloop:
 	
 	POP $s1
 	POP $s0		
-inputZero:	
+	inputZero:	
 	jr $ra
 	nop
  
@@ -121,7 +121,7 @@ time2string:
 	PUSH $ra
 	PUSH $s0
 	PUSH $s1
-        PUSH $s6
+	PUSH $s6
 	PUSH $s7
 	
 	move $s0, $a0 		# Save address 
@@ -134,7 +134,7 @@ loopStart:
 	jal hexasc		# hexasc(a0) --> returns v0
 	nop
 	sb $v0, 0($s0)		# write to memory at s0 with v0		
-	addi $s0, $s0, 1 	# address + memory-counter (1 byte steps)
+	addi	 $s0, $s0, 1 	# address + memory-counter (1 byte steps)
 	addi $s6, $s6, 1	# increment memory-counter by 1 byte
 	beq  $s6, 2, colon	# jump and insert a (int)':' into the next memory position
 	nop

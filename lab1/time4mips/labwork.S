@@ -76,8 +76,8 @@ time2string:
 	move $s0, $a0 		# Save address 
 	move $s1, $a1		# Save value
 	li $s7, 12 		# shift-counter
-	move $s6, $0		# memory-counter <- unneccassary <-- whoops sort of neccesarry
-loopStart:
+	move $s6, $0		# memory-counter <- unnecessary <-- whoops sort of neccesary
+loopStart:	
 	srlv $a0, $s1, $s7	# a0 = (s7 >> s1);
 	sub $s7, $s7, 4		# decrement shift-counter s7 -= 4;
 	jal hexasc		# hexasc(a0) --> returns v0
